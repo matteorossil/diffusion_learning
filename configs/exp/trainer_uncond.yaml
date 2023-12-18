@@ -1,0 +1,39 @@
+# @package _global_
+defaults:
+  - _self_
+
+experiment: trainer_uncond
+
+# experiment args
+output_dir: ${join_path:${hydra:sweep.dir},${hydra:sweep.subdir}}
+data_overlay: ""
+port: 45010
+random_seed: 7
+name: "unconditional_diffusion"
+dataset: cifar10 # cifar10, saycam
+dataset_t: "/vast/sd5313/data/saycam"
+dataset_v: "/vast/sd5313/data/saycam"
+wandb: false
+
+epochs: 100
+num_workers: 8
+log_interval: 200
+save_interval: 1000
+sample: true
+sample_size: 32
+sampling_interval: 1000
+sample_only: True
+
+# model args
+batch_size: 32 # Total batch size. Batch size per gpu = batch_size / worlds
+multiplier: 1
+ckpt_step: 69000
+ckpt_path: /scratch/sd5313/CILVR/fall23/CV/cv-fergus-final-project/checkpoints/uncond
+ckpt_metrics: false 
+
+
+# Training args
+lr: 1e-4
+threshold: 0.02
+l2_loss: 0.0
+

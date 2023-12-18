@@ -1,0 +1,46 @@
+# @package _global_
+defaults:
+  - _self_
+
+experiment: trainer_reps
+
+# experiment args
+output_dir: ${join_path:${hydra:sweep.dir},${hydra:sweep.subdir}}
+data_overlay: ""
+port: 45009
+random_seed: 7
+name: "diffusion_repr_learning"
+dataset: cifar10 # saycam
+data_path: /scratch/sd5313/CILVR/fall23/CV/cv-fergus-final-project/data
+dataset_t: /vast/sd5313/data/imagenet_10/train # "/vast/sd5313/data/saycam"
+dataset_v: /vast/sd5313/data/imagenet_10/val # "/vast/sd5313/data/saycam"
+wandb: false
+
+epochs: 25
+num_workers: 4
+log_interval: 20
+save_interval: 20000
+sample: true
+sample_size: 32
+sampling_interval: 20000
+crop_eval: false
+sample_only: True
+
+# model args
+cond_type: vqvae # unet | light | conv | vqvae
+use_emb: False # Set to true to condition on embedding otherwise concatenates decoded embedding to image
+batch_size: 16 # Total batch size. Batch size per gpu = batch_size / worlds
+multiplier: 1
+ckpt_step: 3240000
+ckpt_path: /scratch/sd5313/CILVR/fall23/CV/cv-fergus-final-project/checkpoints/cond_img_cifar
+ckpt_metrics: false 
+
+
+# Training args
+d_lr: 0.0001
+g_lr: 0.0001
+threshold: 0.02
+l2_loss: 0.0
+
+
+

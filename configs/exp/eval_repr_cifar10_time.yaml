@@ -1,0 +1,39 @@
+# @package _global_
+defaults:
+  - _self_
+  
+experiment: eval_repr
+
+# experiment args
+output_dir: ${join_path:${hydra:sweep.dir},${hydra:sweep.subdir}}
+dataset: cifar10 # cifar10
+data_overlay: "/scratch/work/public/ml-datasets/imagenet/imagenet-train.sqf:ro,/scratch/work/public/ml-datasets/imagenet/imagenet-val.sqf:ro"
+data_path: /scratch/sd5313/CILVR/fall23/CV/cv-fergus-final-project/data
+# train_data_path: #"/vast/sd5313/data/imagenet_10/train"
+# val_data_path: #"/vast/sd5313/data/imagenet_10/val"
+random_seed: 7
+device: cuda
+wandb: false
+val_freq: 1
+save_freq: 10
+num_labels: 10
+batch_size: 128 # Different! This is batch_size_per_gpu
+start_epoch: 0
+epochs: 100
+port: "49985"
+num_workers: 8
+subclass_sampling: false # false indicates subset sampling based on frac_retained.
+frac_retained: 1.0  # If subclass sampling is true, Value indicates fraction of classes to retain. Ex. 0.1 means 10% of classes and hence 10% of data is retained
+
+# model args
+use_emb: true # true . Only works if arch = init_light. Set to true to condition on embedding otherwise concatenates decoded embedding to image
+arch: vqvae # resnet_50 | init_light | vqvae | init_light_unloaded | dummy . If resnet_50 then use_emb is redundant
+multiplier: 1
+ckpt_path: /scratch/sd5313/CILVR/fall23/CV/cv-fergus-final-project/checkpoints/cond_time_cifar
+ckpt_step: 3200000
+ckpt_metrics: false 
+eval: false
+lin_ckpt_path: null #/scratch/sd5313/CILVR/fall23/CV/cv-fergus-final-project/.LOCAL/eval_repr/2023-12-13-eval-test2/checkpoint.pth
+
+# Training args
+lr: 0.001
